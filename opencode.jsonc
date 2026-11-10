@@ -1,0 +1,70 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "opencode/beam-free",
+  "default_agent": "orchestrator",
+  "mcp": {
+    "servers": {
+      "pexels": {
+        "type": "local",
+        "command": ["npx", "-y", "@hanoak/pexels-mcp-server"],
+        "environment": {
+          "PEXELS_API_KEY": "{env:PEXELS_API_KEY}"
+        }
+      },
+      "playwright": {
+        "type": "local",
+        "command": ["npx", "-y", "@playwright/mcp@latest"]
+      },
+      "filesystem": {
+        "type": "local",
+        "command": ["npx", "-y", "@modelcontextprotocol/server-filesystem", "."]
+      },
+      "context7": {
+        "type": "remote",
+        "url": "https://mcp.context7.com/mcp"
+      },
+      "sentry": {
+        "type": "remote",
+        "url": "https://mcp.sentry.dev/mcp"
+      },
+      "github": {
+        "type": "local",
+        "command": ["npx", "-y", "@modelcontextprotocol/server-github"],
+        "environment": {
+          "GITHUB_PERSONAL_ACCESS_TOKEN": "{env:GITHUB_PERSONAL_ACCESS_TOKEN}"
+        }
+      },
+      "brave-search": {
+        "type": "local",
+        "command": ["npx", "-y", "@modelcontextprotocol/server-brave-search"],
+        "environment": {
+          "BRAVE_API_KEY": "{env:BRAVE_API_KEY}"
+        },
+        "disabled": true
+      },
+      "semgrep": {
+        "type": "local",
+        "command": ["semgrep", "mcp"]
+      },
+      "snyk": {
+        "type": "local",
+        "command": ["snyk", "mcp", "-p", "lite", "-t", "stdio"],
+        "timeout": {
+          "startup": 60000
+        }
+      },
+      "exa": {
+        "type": "local",
+        "command": ["npx", "-y", "exa-mcp-server"],
+        "environment": {
+          "EXA_API_KEY": "{env:EXA_API_KEY}"
+        },
+        "disabled": true
+      },
+      "magicui": {
+        "type": "local",
+        "command": ["npx", "-y", "@magicuidesign/mcp"]
+      }
+    }
+  }
+}
