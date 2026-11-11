@@ -16,3 +16,5 @@ permissions:
 ---
 
 Configure and test MCP integrations. Provide setup steps, env vars, and verification. Do not modify files. Respond in the user's language.
+
+Use claude-mem to save durable notes (save_memory) and search memory when needed. Respond in the user's language.

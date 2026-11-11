@@ -7,7 +7,11 @@ HOME = Path.home()
 CONFIG = HOME / ".config" / "opencode"
 AGENTS_DIR = CONFIG / "agents"
 SKILLS_DIR = CONFIG / "skills"
-BUNDLE = Path(__file__).resolve().parent
+import sys
+if getattr(sys, "frozen", False):
+    BUNDLE = Path(sys.executable).resolve().parent
+else:
+    BUNDLE = Path(__file__).resolve().parent
 SKILLS_SRC = BUNDLE / "skills"
 AGENTS_SRC = BUNDLE / "agents"
 CONFIG_SRC = BUNDLE / "opencode.jsonc"
@@ -68,6 +72,11 @@ class InstallerApp:
         inst_frame = ttk.Frame(nb)
         nb.add(inst_frame, text="Install")
         self.build_install(inst_frame)
+
+        # Models tab
+        models_frame = ttk.Frame(nb)
+        nb.add(models_frame, text="Model Map")
+        self.build_models(models_frame)
 
         # Log tab
         log_frame = ttk.Frame(nb)
@@ -136,6 +145,34 @@ class InstallerApp:
         btn = ttk.Button(frame, text="Start Install", command=self.start_install)
         btn.pack(pady=10)
         ttk.Label(frame, text="Log will appear in 'Log' tab.", font=("Segoe UI", 9)).pack()
+
+    def build_models(self, frame):
+        ttk.Label(frame, text="Model Assignment (who does what)", font=("Segoe UI", 11, "bold")).pack(pady=10)
+        cols = ("Agent", "Model", "Role")
+        tree = ttk.Treeview(frame, columns=cols, show="headings", height=15)
+        for c in cols:
+            tree.heading(c, text=c)
+            tree.column(c, width=200)
+        rows = [
+            ("orchestrator", "opencode/beam-free", "Router / coordinator"),
+            ("planner", "opencode/deepseek-v4.1-flash-free", "Planning / analysis"),
+            ("ui-designer", "opencode/glm-5.3-flash-free", "UI / visual design"),
+            ("ux-researcher", "opencode/deepseek-v4.1-flash-free", "UX / research"),
+            ("frontend-dev", "opencode/glm-5.3-flash-free", "Frontend code"),
+            ("backend-dev", "opencode/minimax-m3.1-flash-free", "Backend / auth"),
+            ("security-auditor", "opencode/minimax-m3.1-flash-free", "Security audit"),
+            ("mcp-integrator", "opencode/longcat-2.5-free", "MCP / connectivity"),
+            ("media-analyst", "opencode/gemini-3.5-flash", "Images/text/video (vision)"),
+            ("web-researcher", "opencode/longcat-2.5-free", "Web search / assets"),
+            ("skill-scout", "opencode/deepseek-v4.1-flash-free", "Find skills/MCPs"),
+            ("reviewer", "opencode/mimo-v2.6-flash-free", "Code review"),
+            ("coder", "opencode/glm-5.3-flash-free", "Implementation"),
+            ("pentest-agent", "opencode/minimax-m3.1-flash-free", "Strix pentesting"),
+        ]
+        for r in rows:
+            tree.insert("", "end", values=r)
+        tree.pack(fill="both", expand=True, padx=10, pady=5)
+        ttk.Label(frame, text="Free models: beam-free, deepseek-v4.1-flash-free, glm-5.3-flash-free, mimo-v2.6-flash-free, minimax-m3.1-flash-free, longcat-2.5-free, nemotron-3.5-super-vl-free (vision).", font=("Segoe UI", 9)).pack(pady=5)
 
     def build_log(self, frame):
         self.log_text = scrolledtext.ScrolledText(frame, height=20, state="disabled")

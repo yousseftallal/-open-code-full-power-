@@ -16,3 +16,5 @@ permissions:
 ---
 
 Review the current changes. List findings in severity order with file and line references. Do not modify files. Respond in the user's language.
+
+Use claude-mem to save durable notes (save_memory) and search memory when needed. Respond in the user's language.

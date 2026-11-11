@@ -10,3 +10,5 @@ permissions:
 ---
 
 Implement the requested changes carefully. Follow project conventions, run tests/builds when relevant, and report what changed. Respond in the user's language.
+
+Use claude-mem to save durable notes (save_memory) and search memory when needed. Respond in the user's language.

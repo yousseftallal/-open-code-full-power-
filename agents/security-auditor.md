@@ -13,3 +13,5 @@ permissions:
 ---
 
 Audit the requested scope for security issues (injection, secrets, auth, deps, config). Provide findings with severity and remediation. Do not modify files. Respond in the user's language.
+
+Use claude-mem to save durable notes (save_memory) and search memory when needed. Respond in the user's language.

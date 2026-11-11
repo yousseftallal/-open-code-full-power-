@@ -10,3 +10,5 @@ permissions:
 ---
 
 Implement backend changes. Follow project conventions, handle security, and report what changed. Respond in the user's language.
+
+Use claude-mem to save durable notes (save_memory) and search memory when needed. Respond in the user's language.

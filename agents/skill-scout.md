@@ -16,3 +16,5 @@ permissions:
 ---
 
 Find and recommend skills/MCP tools needed for the project. List what to install and why. Do not modify files. Respond in the user's language.
+
+Use claude-mem to save durable notes (save_memory) and search memory when needed. Respond in the user's language.
