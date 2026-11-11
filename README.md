@@ -1,85 +1,134 @@
-# OpenCode Bundle — Agents + Skills + MCPs
+# Joe Skills — OpenCode Bundle
 
-This bundle contains:
-- **Agents** (multi-model harness: orchestrator + specialists)
-- **Skills** (8 video-editing skills)
-- **MCP config template** (11 MCP servers)
-- **Dependencies list**
+Joe Skills is a complete OpenCode setup with 14 specialist agents, 50+ skills, 13 MCP servers, and a cross-platform installer.
 
-## 1) Install OpenCode
+## Table of Contents
+
+- [Features](#features)
+- [Quick Start](#quick-start)
+- [Installation](#installation)
+- [Platforms](#platforms)
+- [Agents](#agents)
+- [MCP Servers](#mcp-servers)
+- [Skills](#skills)
+- [Multi-Agent Collaboration](#multi-agent-collaboration)
+- [Environment Variables](#environment-variables)
+- [Dependencies](#dependencies)
+- [Troubleshooting](#troubleshooting)
+- [License](#license)
+
+---
+
+## Features
+
+- **Multi-Agent Harness** — Orchestrator routes tasks to 13 specialists (UI, UX, Frontend, Backend, Security, MCP, Media, Research, SkillScout, Reviewer, Coder, Planner, Pentest).
+- **50+ Skills** — Anthropic skills, video editing, accessibility, testing, performance, and more.
+- **13 MCP Servers** — Pexels, Playwright, Semgrep, Snyk, MagicUI, Claude-Mem, Artemis, Context7, Sentry, GitHub (OAuth), Filesystem, Exa, Brave.
+- **Cross-Platform Installer** — GUI (Python/Tkinter) + PowerShell + Docker.
+- **Goal Management** — Big goals + small goals + auto-review before close.
+- **Memory (claude-mem)** — Persistent notes across sessions.
+- **Free & Paid Models** — Uses free OpenCode models; supports paid (GPT-5.5, Claude Opus, Gemini Pro).
+
+---
+
+## Quick Start
+
+### Option 1: GUI Installer (Recommended)
+1. Download `JoeSkillsInstaller` from [Releases](https://github.com/yousseftallal/-open-code-full-power-/releases).
+2. Run `install.bat` (Windows) or `python installer.py` (all platforms).
+3. Select components → Start Install.
+4. Restart OpenCode.
+
+### Option 2: PowerShell Installer
+```powershell
+.\install.ps1
+```
+
+### Option 3: Docker
+```bash
+docker-compose up --build
+```
+
+### Option 4: Manual
+1. Copy `agents/` → `~/.config/opencode/agents/`
+2. Copy `skills/` → `~/.config/opencode/skills/`
+3. Merge `opencode.jsonc` into `~/.config/opencode/opencode.jsonc`
+4. Set environment variables
+5. Restart OpenCode
+
+---
+
+## Installation
+
+### Step 1: Install OpenCode
 Download from https://opencode.ai/v2/docs/ (Desktop or CLI).
 
-## 2) Copy Agents (global)
-Copy `agents/` to:
-- Windows: `%USERPROFILE%\.config\opencode\agents\`
-- macOS/Linux: `~/.config/opencode/agents/`
+### Step 2: Install Dependencies
 
-## 3) Copy Skills (global)
-Copy `skills/` to:
-- Windows: `%USERPROFILE%\.config\opencode\skills\`
-- macOS/Linux: `~/.config/opencode/skills/`
+The installer auto-detects your OS and installs deps via:
+- **Windows:** winget
+- **macOS:** brew
+- **Linux:** apt
 
-(Or put in project `.opencode/skills/` for project-only.)
+Or run `download_deps.ps1` for direct links.
 
-## 4) Merge Config
-Merge `opencode.jsonc` into your global config:
-- Windows: `%USERPROFILE%\.config\opencode\opencode.jsonc`
-- macOS/Linux: `~/.config/opencode/opencode.jsonc`
+| Dependency | Windows | macOS | Linux |
+|---|---|---|---|
+| Python 3.12 | winget | brew | apt |
+| Node.js >=20 | winget | brew | apt |
+| ffmpeg | winget | brew | apt |
+| scrcpy | winget | brew | apt |
+| Docker | winget | brew --cask | apt |
+| Bun | winget | brew | curl |
+| uv | pip | brew | pip |
 
-If you already have a config, merge the `mcp.servers`, `default_agent`, and `model` fields.
+### Step 3: Copy Files
+- `agents/` → `~/.config/opencode/agents/`
+- `skills/` → `~/.config/opencode/skills/`
 
-## 5) Set Environment Variables (for MCPs)
-Set these in your OS environment (or use `{env:...}` substitution):
+### Step 4: Merge Config
+Merge `opencode.jsonc` into your global config.
+
+### Step 5: Set Environment Variables
 - `PEXELS_API_KEY` (Pexels)
-- `GITHUB_PERSONAL_ACCESS_TOKEN` (GitHub MCP)
-- `BRAVE_API_KEY` (Brave Search) — optional, disabled by default
-- `EXA_API_KEY` (Exa) — optional, disabled by default
+- `GITHUB_PERSONAL_ACCESS_TOKEN` (GitHub MCP) — or OAuth
+- `BRAVE_API_KEY` (Brave Search) — optional
+- `EXA_API_KEY` (Exa) — optional
+- `LLM_API_KEY` (Strix)
+- `STRIX_LLM` (Strix model)
+- `GEMINI_API_KEY` / `GOOGLE_API_KEY` (Artemis)
+- `OPEN_ROUTER_API_KEY` (Artemis/OpenRouter)
 
-## 6) Install Dependencies
-
-### Python + Video skills
-- Python 3.11+
-- ffmpeg (modern build)
-- pip install faster-whisper mediapipe playwright
-- playwright install chromium
-
-### Security/Testing tools
-- semgrep: `pip install semgrep`
-- snyk: `npm install -g snyk` then `snyk auth`
-
-### Node
-- Node.js >= 20
-
-## 7) Restart OpenCode
+### Step 6: Restart OpenCode
 Restart OpenCode Desktop/CLI to load agents, skills, and MCPs.
 
-## 8) Verify
+### Step 7: Verify
 - `/mcps` → check connected servers
 - Ask: "List available agents and their models"
 - Try: "Use ui-designer + frontend-dev + backend-dev to build a login page"
 
-## Notes
-- `media-analyst` uses `opencode/gemini-3.5-flash` (may be paid).  
-  Change to `nemotron-3.5-super-vl-free` for free vision.
-- `semgrep`/`snyk` MCPs require CLI installed.
-- `brave-search`/`exa` are disabled until API keys are set.
-- Skills (video) require Python+ffmpeg+packages.
+---
 
-## Direct Download Links (Dependencies)
+## Platforms
 
-| Dependency | Direct Link |
-|---|---|
-| Python 3.12 | https://www.python.org/ftp/python/3.12.10/python-3.12.10-amd64.exe |
-| Node.js 24.16.0 | https://nodejs.org/dist/v24.16.0/node-v24.16.0-x64.msi |
-| Bun | https://github.com/oven-sh/bun/releases/latest/download/bun-windows-x64.zip |
-| uv | https://github.com/astral-sh/uv/releases/latest/download/uv-x86_64-pc-windows-msvc.zip |
-| ffmpeg 9.0.2 | https://github.com/GyanD/codexffmpeg/releases/download/9.0.2/ffmpeg-9.0.2-full_build.zip |
-| scrcpy 5.0.1 | https://github.com/Genymobile/scrcpy/releases/download/v5.0.1/scrcpy-win64-v5.0.1.zip |
-| Docker Desktop | https://desktop.docker.com/win/main/amd64/Docker%20Desktop%20Installer.exe |
+### Windows
+- Use `install.bat` (double-click) or `python installer.py`.
+- winget for deps.
+- Docker Desktop for Strix/GitHub OAuth.
 
-Run `download_deps.ps1` to download all automatically.
+### macOS
+- Use `python installer.py`.
+- brew for deps.
+- Docker Desktop for Strix/GitHub OAuth.
 
-## Model Assignment (who does what)
+### Linux
+- Use `python installer.py`.
+- apt for deps.
+- Docker for Strix/GitHub OAuth.
+
+---
+
+## Agents (Multi-Model Harness)
 
 | Agent | Model | Role |
 |---|---|---|
@@ -98,45 +147,124 @@ Run `download_deps.ps1` to download all automatically.
 | coder | opencode/glm-5.3-flash-free | Implementation |
 | pentest-agent | opencode/minimax-m3.1-flash-free | Strix pentesting |
 
-Free models: beam-free, deepseek-v4.1-flash-free, glm-5.3-flash-free, mimo-v2.6-flash-free, minimax-m3.1-flash-free, longcat-2.5-free, nemotron-3.5-super-vl-free (vision).
+---
 
-## Contents
-- `agents/` — 14 specialist agents
-- `skills/` — 8 video-editing skills
-- `opencode.jsonc` — MCP + default agent/model config
-- `README.md` — this file
-- `installer.py` + `install.bat` — GUI installer
-- `install.ps1` — PowerShell installer
-- `download_deps.ps1` — direct download links
+## MCP Servers (13)
 
+| Server | Type | Status |
+|---|---|---|
+| pexels | local (npx) | configured |
+| playwright | local (npx) | configured |
+| filesystem | local (npx) | configured |
+| context7 | remote | configured |
+| sentry | remote (OAuth) | configured |
+| github | docker (OAuth) | configured |
+| brave-search | local (npx) | disabled (no key) |
+| semgrep | local (CLI) | configured |
+| snyk | local (CLI) | configured |
+| exa | local (npx) | disabled (no key) |
+| magicui | local (npx) | configured |
+| claude-mem | local (CLI) | configured |
+| artemis | local (uv) | configured |
 
-## Multi-Agent Collaboration (How to Use)
+---
 
-### 1) Parallel Review (2-3 agents on same task)
-**Request:** "Run reviewer + security-auditor + ui-designer in parallel on this change, then synthesize."
-**What happens:** All three run in background, then Orchestrator combines findings.
+## Skills (50+)
 
-### 2) Discuss → Refine → Execute
-**Request:** "Have planner, frontend-dev, backend-dev discuss and implement a login page together."
-**What happens:** All propose approaches → Orchestrator picks best → coder implements.
+### Built-in (OpenCode)
+accessibility, browser, build-dashboard, code-review, data-visualization, diagnosing-bugs, frontend-design, performance-optimization, playwright-best-practices, report, universal-erp-flow, verification-before-completion, web-design-guidelines, xlsx-manipulation.
 
-### 3) Divide & Conquer (same task, split work)
-**Request:** "Run frontend-dev (UI) + backend-dev (API) + security-auditor (review) in parallel, then integrate."
-**What happens:** Each handles their part → Orchestrator integrates.
+### Joe Skills (custom)
+- multi-agent-harness — parallel/context persistence guide
+- multi-agent-collaboration — collaborative execution patterns
+- opencode-models-guide — free/paid models + connection
+- goal-management — big/small goals + auto-review
+- auto-review — review before closing goal
+- agent-reach — web/social scraping CLI
+- free-llm-apis — free LLM providers list
+- artemis-mobile — Android automation MCP
 
-### 4) Review Loop
-**Request:** "Implement X, then review, then fix, then re-review."
-**What happens:** coder → reviewer → coder → reviewer until clean.
+### Anthropic Skills (20)
+academy-guide, algorithmic-art, brand-guidelines, canvas-design, claude-api, discernment-nudge, doc-coauthoring, docx, frontend-design, internal-comms, mcp-builder, pdf, pptx, skill-creator, slack-gif-creator, theme-factory, web-artifacts-builder, webapp-testing, xlsx.
 
-### Available Agents
-orchestrator, planner, ui-designer, ux-researcher, frontend-dev, backend-dev, security-auditor, mcp-integrator, media-analyst, web-researcher, skill-scout, reviewer, coder, pentest-agent.
+### Video Skills (8)
+business-short-form-reels, depth-ui-reel, educational-youtube-editor, personal-broll-library, personal-short-form-reels, ranking-format, tutorial-videos, youtube-clips.
 
-### Available Skills
-accessibility, code-review, diagnosing-bugs, frontend-design, performance-optimization, playwright-best-practices, web-design-guidelines, multi-agent-harness, multi-agent-collaboration, opencode-models-guide, agent-reach, free-llm-apis, artemis-mobile, and 8 video skills.
+---
 
-### Best Practices
-- Use **foreground** for dependent steps.
-- Use **background** for independent parallel work.
-- Persist intermediate results to `work/` files.
-- Use claude-mem for durable notes.
-- Keep tasks small to avoid context loss.
+## Multi-Agent Collaboration
+
+### Patterns
+1. **Parallel Review** — 2-3 agents on same task (reviewer + security + ui).
+2. **Discuss → Refine → Execute** — planner + frontend + backend discuss, then coder implements.
+3. **Divide & Conquer** — frontend UI + backend API + security review in parallel.
+4. **Review Loop** — coder → reviewer → coder → reviewer until clean.
+
+### Usage Examples
+> "Run reviewer + security-auditor + ui-designer in parallel on this change, then synthesize."
+
+> "Have planner, frontend-dev, backend-dev discuss and implement a login page together."
+
+---
+
+## Environment Variables
+- `PEXELS_API_KEY` (Pexels)
+- `GITHUB_PERSONAL_ACCESS_TOKEN` (GitHub MCP) — or OAuth
+- `BRAVE_API_KEY` (Brave Search) — optional
+- `EXA_API_KEY` (Exa) — optional
+- `LLM_API_KEY` (Strix)
+- `STRIX_LLM` (Strix model)
+- `GEMINI_API_KEY` / `GOOGLE_API_KEY` (Artemis)
+- `OPEN_ROUTER_API_KEY` (Artemis/OpenRouter)
+
+---
+
+## Dependencies
+- Python 3.12 (Strix, Artemis)
+- Python 3.11 (agent-reach, video skills)
+- Node.js >=20
+- Bun (claude-mem)
+- uv (Artemis)
+- ffmpeg (video)
+- scrcpy (Artemis video recording)
+- Docker (Strix, GitHub MCP OAuth)
+- Android device/emulator (Artemis)
+
+---
+
+## Troubleshooting
+
+### MCP server not connecting
+- Run `/mcps` in OpenCode.
+- Check `opencode mcp list`.
+- Restart OpenCode.
+
+### Agent not found
+- Ensure agents are in `~/.config/opencode/agents/`.
+- Restart OpenCode.
+
+### Skill not loading
+- Ensure skill has `SKILL.md` with `description` in frontmatter.
+- Check permissions: `skill` action in `permissions`.
+
+### Installer fails
+- Run `python installer.py` directly.
+- Check Python version (3.11+).
+- Install missing deps manually.
+
+---
+
+## Future Skills
+- **Security:** OWASP checklist, SAST rules, dependency scanning.
+- **Testing:** Jest, Vitest, Cypress, Playwright advanced.
+- **DevOps:** Docker, CI/CD, Kubernetes, Terraform.
+- **Data:** SQL, analytics, ETL, dbt.
+- **Docs:** API docs, README, changelog, OpenAPI.
+- **Mobile:** iOS testing, Flutter, React Native.
+- **Design:** Figma, shadcn, Tailwind, design tokens.
+- **AI/ML:** RAG, embeddings, fine-tuning.
+
+---
+
+## License
+MIT (for Joe Skills bundle). Individual tools have their own licenses.
